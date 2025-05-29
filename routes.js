@@ -7,7 +7,6 @@ import { checkAuthenticatedRoute, checkUnauthenticatedRouteOnly } from '../utils
 export const routes = {
   '/login': () => checkUnauthenticatedRouteOnly(new LoginPage()),
   '/register': () => checkUnauthenticatedRouteOnly(new RegisterPage()),
-  '/nidracare': () => checkUnauthenticatedRouteOnly(new Nidracare()),
   '/info': () => checkUnauthenticatedRouteOnly(new InfoPage()),
   '/home': () => checkAuthenticatedRoute(new HomePage()),
 
