@@ -29,8 +29,13 @@
     "workbox-webpack-plugin": "^7.3.0"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.1.7",
+    "autoprefixer": "^10.4.21",
     "axios": "^1.9.0",
+    "gsap": "^3.13.0",
     "idb": "^8.0.3",
+    "postcss-loader": "^8.1.1",
+    "tailwindcss": "^4.1.7",
     "workbox-cacheable-response": "^7.3.0",
     "workbox-precaching": "^7.3.0",
     "workbox-routing": "^7.3.0",

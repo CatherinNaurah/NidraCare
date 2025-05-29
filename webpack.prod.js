@@ -14,7 +14,18 @@ module.exports = merge(common, {
         use: [
           MiniCssExtractPlugin.loader,
           'style-loader',
-          'css-loader'
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  require('@tailwindcss/postcss'),
+                  require('autoprefixer')
+                ],
+              }
+            }
+          }
         ],
       },
       {
