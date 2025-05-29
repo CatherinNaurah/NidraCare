@@ -1,6 +1,6 @@
 import Presenter from './presenter';
 import * as API from '../../data/api';
-import insom from '../../assets/images/Insomnia.png';
+import insomnia from '../../assets/images/insomnia.png';
 import anea from '../../assets/images/sleep anea.png';
 
 export default class Page {
@@ -14,7 +14,7 @@ export default class Page {
       </div>
 
       <div class="flex flex-col sm:flex-row items-start gap-6 mt-10 max-w-4xl mx-auto">
-        <img src="${insom}" alt="Ilustrasi Insomnia" class="w-[160px] h-[130px] rounded-xl object-cover flex-shrink-0 shadow-md transition-transform duration-300 hover:scale-105"/>
+        <img src="${insomnia}" alt="Ilustrasi Insomnia" class="w-[160px] h-[130px] rounded-xl object-cover flex-shrink-0 shadow-md transition-transform duration-300 hover:scale-105"/>
         <p class="text-base md:text-lg text-gray-700 text-justify leading-relaxed tracking-wide">
           Insomnia adalah kondisi di mana seseorang mengalami kesulitan untuk tidur atau mempertahankan tidur yang berkualitas. Bayangkan saja, sudah berbaring di tempat tidur berjam-jam tapi mata tetap melek seperti burung hantu. Atau mungkin bisa tertidur, tapi sering terbangun di tengah malam dan susah tidur lagi. Penderita insomnia biasanya merasa lelah sepanjang hari, sulit berkonsentrasi, dan mood-nya jadi gampang berubah. Penyebabnya bisa macam-macam, mulai dari stres, kecemasan, kebiasaan buruk sebelum tidur, hingga konsumsi kafein berlebihan. Insomnia bisa terjadi sesekali (akut) atau berlangsung lama (kronis) jika tidak ditangani dengan baik.
         </p>
