@@ -8,37 +8,37 @@ export default class App {
   #content;
   #navbar;
   #footer;
+  #navbarHeight = 88; 
+  #routesWithoutNavbarPadding = ['/']; 
 
   constructor({ content, navbar, footer }) {
     this.#content = content;
     this.#navbar = navbar;
-    this.#footer = footer
+    this.#footer = footer;
   }
 
-async setupNavbar() {
-  if (!this.#navbar) return;
+  async setupNavbar() {
+    if (!this.#navbar) return;
 
-  const url = getActiveRoute();
-  if (url === '/login' || url === '/register') {
-    this.#navbar.style.display = 'none';
-  } else {
-    this.#navbar.style.display = '';
-    this.#navbar.innerHTML = generateUnauthenticatedNavigationListTemplate();
+    const url = getActiveRoute();
+    if (url === '/login' || url === '/register') {
+      this.#navbar.style.display = 'none';
+    } else {
+      this.#navbar.style.display = '';
+      this.#navbar.innerHTML = generateUnauthenticatedNavigationListTemplate();
 
-    // Tambah listener tombol logout setelah HTML terpasang
-    const logoutButton = document.getElementById('logout-button');
-    if (logoutButton) {
-      logoutButton.addEventListener('click', (event) => {
-        event.preventDefault(); // Mencegah navigasi default (optional)
-
-        if (confirm('Apakah Anda yakin ingin keluar?')) {
-          getLogout(); // Fungsi hapus token/session
-          location.hash = '/login';
-        }
-      });
+      const logoutButton = document.getElementById('logout-button');
+      if (logoutButton) {
+        logoutButton.addEventListener('click', (event) => {
+          event.preventDefault();
+          if (confirm('Apakah Anda yakin ingin keluar?')) {
+            getLogout();
+            location.hash = '/login';
+          }
+        });
+      }
     }
   }
-}
 
   async setupFooter() {
     if (!this.#footer) return;
@@ -54,12 +54,31 @@ async setupNavbar() {
     }
   }
 
+  #adjustMainContentPadding() {
+    if (this.#navbar && this.#content) {
+      const currentRoute = getActiveRoute();
+      
+      const navbarHeightToUse = this.#navbarHeight; 
+
+      const isNavbarVisible = this.#navbar.style.display !== 'none';
+
+      if (isNavbarVisible && !this.#routesWithoutNavbarPadding.includes(currentRoute)) {
+        this.#content.style.paddingTop = `${navbarHeightToUse}px`;
+      } else {
+        this.#content.style.paddingTop = '0px';
+      }
+    }
+  }
+
   async renderPage() {
     const url = getActiveRoute();
     const route = routes[url];
 
     if (!route) {
       this.#content.innerHTML = '<h2>Page not found</h2>';
+      this.setupNavbar(); 
+      this.setupFooter();
+      this.#adjustMainContentPadding(); 
       return;
     }
 
@@ -69,17 +88,20 @@ async setupNavbar() {
       updateDOM: async () => {
         if (!page || !page.render) return;
         this.#content.innerHTML = await page.render();
-        page.afterRender();
+        if (typeof page.afterRender === 'function') {
+          await page.afterRender(); 
+        }
       },
     });
 
     transition.ready.catch(console.error);
-    transition.updateCallbackDone.then(() => {
+    transition.updateCallbackDone.then(async () => { 
       scrollTo({ top: 0, behavior: 'instant' });
 
-      // setup navbar & footer
-      this.setupNavbar();
-      this.setupFooter();
+      await this.setupNavbar(); 
+      await this.setupFooter(); 
+      
+      this.#adjustMainContentPadding();
     });
   }
 }

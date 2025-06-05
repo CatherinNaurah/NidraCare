@@ -30,9 +30,9 @@ export function generateUnauthenticatedNavigationListTemplate() {
           </div>
           <div class="flex items-center justify-center gap-6">
             <a class="font-medium" href="#/">Beranda</a>
-            <a class="font-medium" href="#/">Info</a>
-            <a class="font-medium" href="#/">Analisa</a>
-            <a class="font-medium" href="#/">Hasil</a>
+            <a class="font-medium" href="#/info">Info</a>
+            <a class="font-medium" href="#/form">Analisa</a>
+            <a class="font-medium" href="#/results">Hasil</a>
              <a id="logout-button" class="logout-button" href="#/logout"></i> Logout</a>
           </div>
         </div>
@@ -118,5 +118,3 @@ export function generateFooterTemplate() {
     </footer>
   `;
 }
-
-

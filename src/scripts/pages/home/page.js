@@ -28,6 +28,7 @@ export default class Page {
             <p class="text-md max-w-2xl">Temukan rahasia tidur yang lebih nyenyak bersama NidraCare! Kami hadir untuk menganalisis dan memberikan solusi tepat, agar tidur Anda lebih berkualitas.</p>
             <button 
               class="text-white cursor-pointer bg-black mt-6 px-4 py-3 border rounded-xl transition-all duration-300 hover:scale-105 hover:bg-black/90"
+              onclick="location.hash='#/form'"
             >
               Analisa Sekarang
             </button>
