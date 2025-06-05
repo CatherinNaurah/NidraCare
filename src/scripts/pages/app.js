@@ -1,15 +1,15 @@
 import { getActiveRoute } from '../routes/url-parser';
 import { transitionHelper } from '../utils';
 import { routes } from '../routes/routes';
-import { generateUnauthenticatedNavigationListTemplate, generateFooterTemplate } from '../templates';
+import { generateAuthenticatedNavigationListTemplate, generateUnauthenticatedNavigationListTemplate, generateFooterTemplate } from '../templates';
 import { getAccessToken, getLogout } from '../utils/auth';
 
 export default class App {
   #content;
   #navbar;
   #footer;
-  #navbarHeight = 88; 
-  #routesWithoutNavbarPadding = ['/']; 
+  #navbarHeight = 88;
+  #routesWithoutNavbarPadding = ['/', '/home'];
 
   constructor({ content, navbar, footer }) {
     this.#content = content;
@@ -25,17 +25,22 @@ export default class App {
       this.#navbar.style.display = 'none';
     } else {
       this.#navbar.style.display = '';
-      this.#navbar.innerHTML = generateUnauthenticatedNavigationListTemplate();
+      const isAuthenticated = !!getAccessToken(); 
 
-      const logoutButton = document.getElementById('logout-button');
-      if (logoutButton) {
-        logoutButton.addEventListener('click', (event) => {
-          event.preventDefault();
-          if (confirm('Apakah Anda yakin ingin keluar?')) {
-            getLogout();
-            location.hash = '/login';
-          }
-        });
+      if (isAuthenticated) {
+        this.#navbar.innerHTML = generateAuthenticatedNavigationListTemplate(); 
+        const logoutButton = document.getElementById('logout-button');
+        if (logoutButton) {
+          logoutButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            if (confirm('Apakah Anda yakin ingin keluar?')) {
+              getLogout();
+              location.hash = '/login'; 
+            }
+          });
+        }
+      } else {
+        this.#navbar.innerHTML = generateUnauthenticatedNavigationListTemplate();
       }
     }
   }
@@ -58,7 +63,7 @@ export default class App {
     if (this.#navbar && this.#content) {
       const currentRoute = getActiveRoute();
       
-      const navbarHeightToUse = this.#navbarHeight; 
+      const navbarHeightToUse = this.#navbarHeight;
 
       const isNavbarVisible = this.#navbar.style.display !== 'none';
 
@@ -74,32 +79,36 @@ export default class App {
     const url = getActiveRoute();
     const route = routes[url];
 
+
     if (!route) {
       this.#content.innerHTML = '<h2>Page not found</h2>';
-      this.setupNavbar(); 
-      this.setupFooter();
-      this.#adjustMainContentPadding(); 
+      await this.setupNavbar();
+      await this.setupFooter();
+      this.#adjustMainContentPadding();
       return;
     }
 
-    const page = route();
+    const page = route(); 
+    if (!page) {
+        return;
+    }
 
     const transition = transitionHelper({
       updateDOM: async () => {
         if (!page || !page.render) return;
         this.#content.innerHTML = await page.render();
         if (typeof page.afterRender === 'function') {
-          await page.afterRender(); 
+          await page.afterRender();
         }
       },
     });
 
     transition.ready.catch(console.error);
-    transition.updateCallbackDone.then(async () => { 
+    transition.updateCallbackDone.then(async () => {
       scrollTo({ top: 0, behavior: 'instant' });
 
-      await this.setupNavbar(); 
-      await this.setupFooter(); 
+      await this.setupNavbar();
+      await this.setupFooter();
       
       this.#adjustMainContentPadding();
     });

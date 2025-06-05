@@ -1,6 +1,6 @@
 import Logo from '../scripts/assets/images/nidracare.png';
 
-export function generateAuthenticatedNavigationListTemplate() {
+export function generateUnauthenticatedNavigationListTemplate() {
   return `
     <div class="w-full relative max-w-screen-xl mx-auto">
       <div class="flex justify-between items-center w-full container mx-auto">
@@ -20,7 +20,7 @@ export function generateAuthenticatedNavigationListTemplate() {
   `;
 }
 
-export function generateUnauthenticatedNavigationListTemplate() {
+export function generateAuthenticatedNavigationListTemplate() {
   return `
     <div class="w-full relative max-w-screen-xl mx-auto">
       <div class="flex justify-between items-center w-full container mx-auto">
@@ -33,7 +33,7 @@ export function generateUnauthenticatedNavigationListTemplate() {
             <a class="font-medium" href="#/info">Info</a>
             <a class="font-medium" href="#/form">Analisa</a>
             <a class="font-medium" href="#/results">Hasil</a>
-             <a id="logout-button" class="logout-button" href="#/logout"></i> Logout</a>
+            <a id="logout-button" class="logout-button font-medium cursor-pointer" href="#/logout">Logout</a>
           </div>
         </div>
       </div>
@@ -41,12 +41,10 @@ export function generateUnauthenticatedNavigationListTemplate() {
   `;
 }
 
-
 export function generateFooterTemplate() {
   return `
     <footer class="max-w-7xl mx-auto px-6 py-10 bg-white text-black">
       <div class="flex flex-col md:flex-row md:justify-between gap-10">
-        <!-- Bagian kiri: NidraCare dan deskripsi -->
         <div class="md:w-1/4">
           <h2 class="font-extrabold text-lg leading-6 mb-3">
             NidraCare
@@ -56,7 +54,6 @@ export function generateFooterTemplate() {
           </p>
         </div>
 
-        <!-- Bagian kanan: menu -->
         <div class="flex flex-col sm:flex-row md:w-3/4 justify-between gap-10 sm:gap-20">
           <div>
             <h3 class="font-extrabold text-xl mb-3">
@@ -111,7 +108,7 @@ export function generateFooterTemplate() {
             <i class="fab fa-facebook-f"></i>
           </a>
         </div>
-        
+        <p class="text-sm text-gray-600">
           Copyright © ${new Date().getFullYear()} NidraCare. All rights reserved
         </p>
       </div>

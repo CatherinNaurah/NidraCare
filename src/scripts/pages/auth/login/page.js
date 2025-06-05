@@ -3,6 +3,7 @@ import * as API from '../../../data/api';
 import LoginBg from '../../../assets/images/login_bg.png';
 import Logo from '../../../assets/images/nidracare.png';
 import gsap from 'gsap';
+import { putAccessToken } from '../../../utils/auth';
 
 export default class Page {
   #presenter = null;
@@ -10,13 +11,9 @@ export default class Page {
   async render() {
     return `
       <section class="flex flex-col md:flex-row min-h-screen">
-        <!-- Kiri: Gambar dan teks -->
         <div class="relative w-full md:w-1/2 min-h-[480px]">
-          <!-- Gambar background -->
           <img src="${LoginBg}" alt="Hero Login" class="absolute inset-0 w-full h-full object-cover" />
-          <!-- Overlay gelap -->
           <div class="absolute inset-0 bg-black/40 z-10"></div>
-          <!-- Teks di atas gambar -->
           <div class="relative z-20 flex items-center justify-center h-full px-8 py-10">
             <div class="text-white max-w-md">
               <div id="logo-login" class="h-[100px] w-[100px] bg-white p-2 overflow-hidden rounded-xl mb-2">
@@ -32,7 +29,6 @@ export default class Page {
           </div>
         </div>
 
-        <!-- Kanan: Form login -->
         <section class="md:w-1/2 flex items-center justify-center p-8" style="min-height: 480px">
           <form id="login-form" autocomplete="off" class="p-8 w-full max-w-md">
             <div class="mb-6 text-left">
@@ -65,17 +61,14 @@ export default class Page {
   }
 
 async afterRender() {
-  // Auth model sederhana untuk simpan token ke localStorage
   const authModel = {
-    putAccessToken: (token) => {
-      localStorage.setItem('accessToken', token);
-    }
+    putAccessToken: putAccessToken 
   };
 
   this.#presenter = new Presenter({
     view: this,
     model: API,
-    authModel, // jangan lupa kirim ke presenter
+    authModel, 
   });
 
   this.#setupForm();
@@ -115,7 +108,7 @@ async afterRender() {
   }
   loginSuccessfully(message, user) {
     console.log(message, user);
-    location.hash = '/home';
+    location.hash = '/home'; 
   }
   loginFailed(message) {
     alert(message);
