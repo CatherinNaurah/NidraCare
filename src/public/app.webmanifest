@@ -4,7 +4,7 @@
   "scope": "/",
   "name": "Nidra Care",
   "short_name": "NidraCare",
-  "description": "",
+  "description": "Nidracare merupakan aplikasi yang dapat membantu Anda dalam mendeteksi secara dini potensi gangguan tidur. Dengan memasukkan informasi mengenai pola tidur dan gaya hidup Anda, Nidracare menggunakan Machine Learning untuk memberikan prediksi apakah Anda berisiko mengalami kondisi seperti insomnia atau sleep apnea, serta memberikan saran awal untuk meningkatkan kualitas tidur Anda.",
   "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#d97706",
