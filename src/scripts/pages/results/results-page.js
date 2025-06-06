@@ -40,55 +40,69 @@ class ResultsPage {
   }
 
   render() {
-    const { durasiTidur, dailyStep, stressLevel, umur, jenisKelamin, aktivitasFisik, kategoriBmi } = this.#formData; //
+    const { durasiTidur, dailyStep, stressLevel, umur, jenisKelamin, aktivitasFisik, kategoriBmi } = this.#formData;
     
-    const { predicted_class = "Data Tidak Ditemukan", confidence = 0 } = this.#prediction; //
+    const { predicted_class = "Data Tidak Ditemukan", confidence = 0 } = this.#prediction;
 
+    const DESCRIPTIONS = {
+      'Insomnia': '<strong class="font-bold text-[#040A42]">Insomnia</strong> adalah gangguan tidur saat seseorang mengalami kesulitan untuk mulai tidur atau tetap tertidur sepanjang malam. Kondisi ini dapat menyebabkan kelelahan, kesulitan berkonsentrasi, dan perubahan suasana hati pada siang hari.',
+      'Sleep Apnea': '<strong class="font-bold text-[#040A42]">Sleep Apnea</strong> adalah gangguan tidur serius yang terjadi ketika pernapasan seseorang terhenti secara berulang selama tidur. Hal ini menyebabkan otak dan tubuh kekurangan oksigen, yang dapat berdampak pada kesehatan jantung dan sistem pernapasan.',
+      'Normal': '<strong class="font-bold text-[#040A42]">Tidur normal</strong> adalah kondisi di mana seseorang dapat tertidur dengan mudah, tetap tertidur sepanjang malam, dan bangun dengan perasaan segar. Pola tidur yang sehat membantu menjaga keseimbangan energi, konsentrasi, suasana hati, serta mendukung fungsi tubuh dan otak secara optimal.',
+      'Data Tidak Ditemukan': 'Deskripsi tidak tersedia karena data hasil prediksi tidak dapat ditemukan. Silakan isi formulir terlebih dahulu.'
+    };
+
+    const bmiDisplayText = {
+      'Normal': 'Underweight',
+      'Normal Weight': 'Healthy Weight',
+      'Overweight': 'Overweight',
+      'Obese': 'Obesity'
+    };
+
+    const dynamicDescription = DESCRIPTIONS[predicted_class] || DESCRIPTIONS['Data Tidak Ditemukan'];
     let durasiTidurMetric = {
-      title: "Durasi Tidur", //
-      value: durasiTidur ? `${durasiTidur} Jam` : "N/A", //
-      description: durasiTidur >= 7 ? "Pertahankan!" : "Tingkatkan jam tidurmu!", //
-      colorClass: durasiTidur >= 7 ? "text-green-500" : "text-red-500", //
+      title: "Durasi Tidur",
+      value: durasiTidur ? `${durasiTidur} Jam` : "N/A",
+      description: durasiTidur >= 7 ? "Pertahankan!" : "Tingkatkan jam tidurmu!",
+      colorClass: durasiTidur >= 7 ? "text-green-500" : "text-red-500",
     };
 
     let langkahHarianMetric = {
-      title: "Langkah Harian", //
-      value: dailyStep ? `${dailyStep} Langkah` : "N/A", //
-      description: dailyStep >= 7000 ? "Pertahankan!" : "Tingkatkan aktivitas harianmu!", //
-      colorClass: dailyStep >= 7000 ? "text-green-500" : "text-red-500", //
+      title: "Langkah Harian",
+      value: dailyStep ? `${dailyStep} Langkah` : "N/A",
+      description: dailyStep >= 7000 ? "Pertahankan!" : "Tingkatkan aktivitas harianmu!",
+      colorClass: dailyStep >= 7000 ? "text-green-500" : "text-red-500",
     };
 
     let stressLevelMetric = {
-      title: "Stress Level", //
-      value: stressLevel ? stressLevel.toString() : "N/A", //
-      description: stressLevel < 5 ? "Pertahankan!" : "Relaksasikan Pikiranmu!", //
-      colorClass: stressLevel < 5 ? "text-green-500" : "text-red-500", //
+      title: "Stress Level",
+      value: stressLevel ? stressLevel.toString() : "N/A",
+      description: stressLevel < 5 ? "Pertahankan!" : "Relaksasikan Pikiranmu!",
+      colorClass: stressLevel < 5 ? "text-green-500" : "text-red-500",
     };
 
     const resultData = {
-      condition: predicted_class, //
-      confidence: (confidence * 100).toFixed(1), //
+      condition: predicted_class,
+      confidence: (confidence * 100).toFixed(1),
       personalData: {
-        "Usia": umur ? `${umur} Tahun` : "Data tidak tersedia", //
-        "Jenis Kelamin": jenisKelamin || "Data tidak tersedia", //
-        "Aktivitas Fisik": aktivitasFisik ? `${aktivitasFisik} Menit` : "Data tidak tersedia", //
-        "Durasi Tidur": durasiTidur ? `${durasiTidur} Jam` : "Data tidak tersedia", //
-        "Langkah Harian": dailyStep ? `${dailyStep} Langkah` : "Data tidak tersedia", // <-- BARIS BARU
-        "Stress Level": stressLevel ? stressLevel.toString() : "Data tidak tersedia", // <-- BARIS BARU
-        "Kategori BMI": kategoriBmi || "Data tidak tersedia", //
+        "Usia": umur ? `${umur} Tahun` : "Data tidak tersedia",
+        "Jenis Kelamin": jenisKelamin || "Data tidak tersedia",
+        "Aktivitas Fisik": aktivitasFisik ? `${aktivitasFisik} Menit` : "Data tidak tersedia",
+        "Durasi Tidur": durasiTidur ? `${durasiTidur} Jam` : "Data tidak tersedia",
+        "Langkah Harian": dailyStep ? `${dailyStep} Langkah` : "Data tidak tersedia",
+        "Stress Level": stressLevel ? stressLevel.toString() : "Data tidak tersedia",
+        "Kategori BMI": bmiDisplayText[kategoriBmi] || kategoriBmi || "Data tidak tersedia",
       },
-      description:
-        " adalah gangguan tidur serius yang terjadi ketika pernapasan seseorang terhenti secara berulang selama tidur. Hal ini menyebabkan otak dan tubuh kekurangan oksigen, yang dapat berdampak pada kesehatan jantung dan sistem pernapasan.", //
+      description: dynamicDescription,
       metrics: { 
-        durasiTidur: durasiTidurMetric, //
-        langkahHarian: langkahHarianMetric, //
-        stressLevel: stressLevelMetric, //
+        durasiTidur: durasiTidurMetric,
+        langkahHarian: langkahHarianMetric,
+        stressLevel: stressLevelMetric,
       },
       saran: [ 
-        "Hindari layar gadget dan kafein minimal 1 jam sebelum tidur", //
-        "Ciptakan suasana kamar tidur yang tenang, gelap, dan nyaman", //
-        "Luangkan waktu untuk aktivitas menyenangkan dan me-time setiap hari", //
-        "Jika sulit tidur atau stres berlanjut, pertimbangkan untuk berkonsultasi dengan tenaga profesional", //
+        "Hindari layar gadget dan kafein minimal 1 jam sebelum tidur",
+        "Ciptakan suasana kamar tidur yang tenang, gelap, dan nyaman",
+        "Luangkan waktu untuk aktivitas menyenangkan dan me-time setiap hari",
+        "Jika sulit tidur atau stres berlanjut, pertimbangkan untuk berkonsultasi dengan tenaga profesional",
       ],
     };
 
@@ -120,7 +134,7 @@ class ResultsPage {
             <div class="bg-white text-slate-800 rounded-2xl shadow-lg overflow-hidden flex flex-col">
               <div class="bg-[#040A42] text-slate-50 p-3 px-5 font-semibold text-lg text-center">Deskripsi</div>
               <div class="p-5 flex-grow">
-                 <p class="leading-relaxed"><strong class="font-bold text-[#040A42]">${resultData.condition}</strong>${resultData.description}</p>
+                 <p class="leading-relaxed">${resultData.description}</p>
               </div>
             </div>
             
