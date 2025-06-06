@@ -26,13 +26,63 @@ class ResultsPage {
   }
 
   render() {
+    let durasiTidurMetric = {
+      title: "Durasi Tidur",
+      value: "N/A",
+      description: "Data tidak tersedia.",
+      colorClass: "text-slate-500", 
+    };
+    if (this.#formData.durasiTidur !== null && this.#formData.durasiTidur !== undefined) {
+      durasiTidurMetric.value = `${this.#formData.durasiTidur} Jam`;
+      if (this.#formData.durasiTidur >= 7) {
+        durasiTidurMetric.description = "Pertahankan!";
+        durasiTidurMetric.colorClass = "text-green-500";
+      } else {
+        durasiTidurMetric.description = "Tingkatkan jam tidurmu!";
+        durasiTidurMetric.colorClass = "text-red-500";
+      }
+    }
+
+    let langkahHarianMetric = {
+      title: "Langkah Harian",
+      value: "N/A",
+      description: "Data tidak tersedia.",
+      colorClass: "text-slate-500",
+    };
+    if (this.#formData.dailyStep !== null && this.#formData.dailyStep !== undefined) {
+      langkahHarianMetric.value = `${this.#formData.dailyStep} Langkah`;
+      if (this.#formData.dailyStep >= 7000) {
+        langkahHarianMetric.description = "Pertahankan!";
+        langkahHarianMetric.colorClass = "text-green-500";
+      } else {
+        langkahHarianMetric.description = "Tingkatkan aktivitas harianmu!";
+        langkahHarianMetric.colorClass = "text-red-500";
+      }
+    }
+
+    let stressLevelMetric = {
+      title: "Stress Level",
+      value: "N/A",
+      description: "Data tidak tersedia.",
+      colorClass: "text-slate-500",
+    };
+    if (this.#formData.stressLevel !== null && this.#formData.stressLevel !== undefined) {
+      stressLevelMetric.value = this.#formData.stressLevel.toString();
+      if (this.#formData.stressLevel >= 5) {
+        stressLevelMetric.description = "Relaksasikan Pikiranmu!";
+        stressLevelMetric.colorClass = "text-red-500";
+      } else {
+        stressLevelMetric.description = "Pertahankan!";
+        stressLevelMetric.colorClass = "text-green-500";
+      }
+    }
 
     const resultData = {
       condition: "Sleep Apnea",
       personalData: {
         "Usia": this.#formData.umur ? `${this.#formData.umur} Tahun` : "Data tidak tersedia",
         "Jenis Kelamin": this.#formData.jenisKelamin || "Data tidak tersedia",
-        "Aktivitas Fisik": this.#formData.aktivitasFisik !== null && this.#formData.aktivitasFisik !== undefined ? `${this.#formData.aktivitasFisik} Jam` : "Data tidak tersedia",
+        "Aktivitas Fisik": this.#formData.aktivitasFisik !== null && this.#formData.aktivitasFisik !== undefined ? `${this.#formData.aktivitasFisik} Menit` : "Data tidak tersedia",
         "Langkah harian": this.#formData.dailyStep !== null && this.#formData.dailyStep !== undefined ? `${this.#formData.dailyStep} Langkah` : "Data tidak tersedia",
         "Durasi Tidur": this.#formData.durasiTidur !== null && this.#formData.durasiTidur !== undefined ? `${this.#formData.durasiTidur} Jam` : "Data tidak tersedia",
         "Stress Level": this.#formData.stressLevel !== null && this.#formData.stressLevel !== undefined ? `${this.#formData.stressLevel}` : "Data tidak tersedia",
@@ -41,24 +91,9 @@ class ResultsPage {
       description:
         " adalah gangguan tidur serius yang terjadi ketika pernapasan seseorang terhenti secara berulang selama tidur. Hal ini menyebabkan otak dan tubuh kekurangan oksigen, yang dapat berdampak pada kesehatan jantung dan sistem pernapasan. Sleep apnea sering tidak disadari penderitanya karena terjadi saat tidur.",
       metrics: { 
-        durasiTidur: {
-          title: "Durasi Tidur",
-          value: this.#formData.durasiTidur !== null && this.#formData.durasiTidur !== undefined ? `${this.#formData.durasiTidur} Jam` : "N/A",
-          description: "Tingkatkan jam tidurmu!", 
-          colorClass: "text-red-500",
-        },
-        langkahHarian: {
-          title: "Langkah Harian",
-          value: this.#formData.dailyStep !== null && this.#formData.dailyStep !== undefined ? `${this.#formData.dailyStep} Langkah` : "N/A",
-          description: "Pertahankan!",
-          colorClass: "text-green-500", 
-        },
-        stressLevel: {
-          title: "Stress Level",
-          value: this.#formData.stressLevel !== null && this.#formData.stressLevel !== undefined ? this.#formData.stressLevel.toString() : "N/A",
-          description: "Relaksasikan Pikiranmu!",
-          colorClass: "text-orange-500",
-        },
+        durasiTidur: durasiTidurMetric,
+        langkahHarian: langkahHarianMetric,
+        stressLevel: stressLevelMetric,
       },
       saran: [ 
         "Hindari layar gadget dan kafein minimal 1 jam sebelum tidur",
@@ -122,7 +157,7 @@ class ResultsPage {
                   resultData.metrics.durasiTidur.title
                 }</div>
                 <div class="p-5 flex-grow text-center flex flex-col justify-center items-center">
-                  <div class="text-5xl font-bold mb-2 ${
+                  <div class="text-4xl font-bold mb-2 ${
                     resultData.metrics.durasiTidur.colorClass
                   }">${resultData.metrics.durasiTidur.value}</div>
                   <div class="font-medium text-sm ${
@@ -135,7 +170,7 @@ class ResultsPage {
                   resultData.metrics.langkahHarian.title
                 }</div>
                 <div class="p-5 flex-grow text-center flex flex-col justify-center items-center">
-                  <div class="text-5xl font-bold mb-2 ${
+                  <div class="text-4xl font-bold mb-2 ${
                     resultData.metrics.langkahHarian.colorClass
                   }">${resultData.metrics.langkahHarian.value}</div>
                   <div class="font-medium text-sm ${
@@ -148,7 +183,7 @@ class ResultsPage {
                   resultData.metrics.stressLevel.title
                 }</div>
                 <div class="p-5 flex-grow text-center flex flex-col justify-center items-center">
-                  <div class="text-5xl font-bold mb-2 ${
+                  <div class="text-4xl font-bold mb-2 ${
                     resultData.metrics.stressLevel.colorClass
                   }">${resultData.metrics.stressLevel.value}</div>
                   <div class="font-medium text-sm ${

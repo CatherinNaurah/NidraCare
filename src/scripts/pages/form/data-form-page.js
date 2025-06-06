@@ -1,4 +1,3 @@
-// src/scripts/pages/form/data-form-page.js
 import DataFormPresenter from "./data-form-presenter.js";
 
 class DataFormPage {
@@ -36,7 +35,7 @@ class DataFormPage {
               </div>
 
               <div class="mb-6">
-                <label for="aktivitas-fisik" class="block font-medium mb-2 text-sm">Durasi Aktivitas Fisik (satuan jam)</label>
+                <label for="aktivitas-fisik" class="block font-medium mb-2 text-sm">Durasi Aktivitas Fisik (satuan menit)</label>
                 <input type="number" step="any" id="aktivitas-fisik" name="aktivitasFisik" placeholder="Masukkan berapa lama Anda melakukan aktivitas fisik."
                        class="w-full py-3 px-4 border border-slate-200 rounded-lg text-base transition-colors duration-200 
                               placeholder:text-slate-400 focus:outline-none focus:border-[#040A42] focus:ring-4 focus:ring-[#040A42]/20 no-spinner">
