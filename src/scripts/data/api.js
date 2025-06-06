@@ -1,13 +1,14 @@
 import axios from 'axios';
 import { BASE_URL } from '../config';
+import { ML_API_BASE_URL } from '../config';
+import { getAccessToken } from '../utils/auth'; 
 
 const ENDPOINTS = {
   LOGIN: `${BASE_URL}/api/login`,
   REGISTER: `${BASE_URL}/api/register`,
-  MY_USER_INFO: `${BASE_URL}/users/me`,
+  PREDICT_DISORDER: `${ML_API_BASE_URL}/predict`, 
 };
 
-// Fungsi untuk mendaftarkan pengguna baru dengan username dan password
 export async function getRegistered({ username, password }) {
   const data = JSON.stringify({ username, password });
 
@@ -25,8 +26,6 @@ export async function getRegistered({ username, password }) {
   };
 }
 
-// Fungsi untuk melakukan login pengguna dengan username dan password
-// Fungsi untuk melakukan login pengguna
 export async function getLogin({ username, password }) {
   const data = JSON.stringify({ username, password });
 
@@ -37,15 +36,16 @@ export async function getLogin({ username, password }) {
   });
   const json = await fetchResponse.json();
 
+  if (!fetchResponse.ok) {
+    return { ...json, ok: false };
+  }
+  
   return {
     ...json,
-    ok: fetchResponse.ok,
+    ok: true,
   };
 }
 
-
-
-// Fungsi untuk mendapatkan data pengguna yang sedang login
 export async function getMyUserInfo() {
   const accessToken = getAccessToken();
 
@@ -57,5 +57,25 @@ export async function getMyUserInfo() {
   return {
     ...json,
     ok: fetchResponse.ok,
+  };
+}
+
+export async function predictSleepDisorder(payload) {
+  const response = await fetch(ENDPOINTS.PREDICT_DISORDER, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || `Terjadi kesalahan pada server dengan status: ${response.status}`);
+  }
+
+  const json = await response.json();
+
+  return {
+    ...json,
+    ok: response.ok,
   };
 }

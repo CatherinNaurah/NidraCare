@@ -3,7 +3,7 @@ import * as API from '../../../data/api';
 import LoginBg from '../../../assets/images/login_bg.png';
 import Logo from '../../../assets/images/nidracare.png';
 import gsap from 'gsap';
-import { putAccessToken } from '../../../utils/auth';
+import { putAccessToken, putUserInfo } from '../../../utils/auth';
 
 export default class Page {
   #presenter = null;
@@ -62,7 +62,8 @@ export default class Page {
 
 async afterRender() {
   const authModel = {
-    putAccessToken: putAccessToken 
+    putAccessToken: putAccessToken,
+    putUserInfo: putUserInfo,
   };
 
   this.#presenter = new Presenter({
@@ -107,7 +108,8 @@ async afterRender() {
     });
   }
   loginSuccessfully(message, user) {
-    console.log(message, user);
+    console.log(message);
+    alert(`Login berhasil! Selamat datang, ${user.username || 'Pengguna'}.`);
     location.hash = '/home'; 
   }
   loginFailed(message) {

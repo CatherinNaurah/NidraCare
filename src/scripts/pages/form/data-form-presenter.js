@@ -1,23 +1,70 @@
+import { getUserInfo } from '../../utils/auth';
+import { predictSleepDisorder } from '../../data/api';
+
 class DataFormPresenter {
   #view;
-  static #HEALTH_FORM_DATA_KEY = 'healthFormData';
+  #form;
+  #submitButton;
+  static #PREDICTION_KEY_PREFIX = 'predictionResultData';
 
-  constructor({ view }) {
+  constructor({ view, form, submitButton }) {
     this.#view = view;
+    this.#form = form;
+    this.#submitButton = submitButton;
   }
 
-  async submitForm(data) {
-    console.log('Presenter menerima data untuk diproses:', data);
+  async submitForm(formData) {
+    this.#setLoading(true);
 
     try {
-      localStorage.setItem(DataFormPresenter.#HEALTH_FORM_DATA_KEY, JSON.stringify(data));
-      console.log('Data disimpan ke localStorage:', data);
+      const userInfo = getUserInfo();
+      
+      if (!userInfo || !userInfo.id) {
+        throw new Error("ID Pengguna tidak ditemukan. Silakan login kembali.");
+      }
+      const userId = userInfo.id;
+      
+      const payload = {
+        user_id: userId,
+        gender: formData.jenisKelamin === 'Perempuan' ? 'female' : 'male',
+        age: formData.umur,
+        sleep_duration: formData.durasiTidur,
+        sleep_quality: formData.kualitasTidur,          
+        physical_activity_duration: formData.aktivitasFisik, 
+        stress_level: formData.stressLevel,
+        bmi_category: formData.kategoriBmi, 
+        steps_per_day: formData.dailyStep,               
+      };
 
-      this.#view.showSuccessMessage(data);
+      const predictionResponse = await predictSleepDisorder(payload);
+      if (!predictionResponse.ok) {
+        const errorDetail = predictionResponse.detail ? JSON.stringify(predictionResponse.detail) : predictionResponse.message;
+        throw new Error(errorDetail || "Gagal mendapatkan prediksi dari server.");
+      }
+      
+      const resultData = {
+        prediction: predictionResponse,
+        originalForm: formData,
+      };
+
+      const userSpecificKey = `${DataFormPresenter.#PREDICTION_KEY_PREFIX}_${userId}`;
+      
+      localStorage.setItem(userSpecificKey, JSON.stringify(resultData));
+      
+      this.#view.showSuccessMessage();
 
     } catch (error) {
-      console.error('Gagal menyimpan data ke localStorage atau memproses:', error);
-      alert('Terjadi kesalahan saat menyimpan data.');
+      console.error('Terjadi kesalahan saat memproses form:', error);
+      alert(`Terjadi kesalahan: ${error.message}`);
+    } finally {
+      this.#setLoading(false);
+    }
+  }
+
+  #setLoading(isLoading) {
+    if (this.#submitButton) {
+      this.#submitButton.disabled = isLoading;
+      this.#submitButton.innerHTML = isLoading ? 'Memproses...' : 'Simpan & Lihat Hasil';
     }
   }
 }
