@@ -1,5 +1,8 @@
 import ResultsPresenter from "./results-presenter.js";
 import { getUserInfo } from "../../utils/auth";
+import insomniaImage from '../../assets/images/insomnia-predict.jpg';
+import sleepApneaImage from '../../assets/images/sleep-apnea-predict.jpg';
+import normalImage from '../../assets/images/normal-sleep-predict.jpg';
 
 class ResultsPage {
   #presenter;
@@ -51,6 +54,12 @@ class ResultsPage {
       'Data Tidak Ditemukan': 'Deskripsi tidak tersedia karena data hasil prediksi tidak dapat ditemukan. Silakan isi formulir terlebih dahulu.'
     };
 
+    const IMAGES = {
+      'Insomnia': insomniaImage,
+      'Sleep Apnea': sleepApneaImage,
+      'Normal': normalImage
+    };
+
     const bmiDisplayText = {
       'Normal': 'Underweight',
       'Normal Weight': 'Healthy Weight',
@@ -59,6 +68,8 @@ class ResultsPage {
     };
 
     const dynamicDescription = DESCRIPTIONS[predicted_class] || DESCRIPTIONS['Data Tidak Ditemukan'];
+    const dynamicImage = IMAGES[predicted_class];
+
     let durasiTidurMetric = {
       title: "Durasi Tidur",
       value: durasiTidur ? `${durasiTidur} Jam` : "N/A",
@@ -115,7 +126,12 @@ class ResultsPage {
             <div class="grid gap-5 md:grid-cols-10">
               <div class="bg-white text-slate-800 rounded-2xl shadow-lg overflow-hidden flex flex-col text-center md:col-span-4">
                 <div class="p-6 flex-grow">
-                  <div class="w-[150px] h-[150px] bg-slate-200 rounded-full flex items-center justify-center text-slate-400 italic mx-auto">Image Placeholder</div>
+                  
+                  ${dynamicImage 
+                    ? `<img src="${dynamicImage}" alt="Ilustrasi ${resultData.condition}" class="w-[150px] h-[150px] rounded-full object-cover mx-auto" />`
+                    : `<div class="w-[150px] h-[150px] bg-slate-200 rounded-full flex items-center justify-center text-slate-400 italic mx-auto">Gambar tidak tersedia</div>`
+                  }
+
                   <h2 class="text-4xl mt-4 font-bold text-[#040A42]">${resultData.condition}</h2>
                   <div class="text-base text-slate-500 mt-2">Tingkat Keyakinan: ${resultData.confidence}%</div>
                 </div>
