@@ -48,8 +48,8 @@ class ResultsPage {
     const { predicted_class = "Data Tidak Ditemukan", confidence = 0 } = this.#prediction;
 
     const DESCRIPTIONS = {
-      'Insomnia': '<strong class="font-bold text-[#040A42]">Insomnia</strong> adalah gangguan tidur saat seseorang mengalami kesulitan untuk mulai tidur atau tetap tertidur sepanjang malam. Kondisi ini dapat menyebabkan kelelahan, kesulitan berkonsentrasi, dan perubahan suasana hati pada siang hari.',
-      'Sleep Apnea': '<strong class="font-bold text-[#040A42]">Sleep Apnea</strong> adalah gangguan tidur serius yang terjadi ketika pernapasan seseorang terhenti secara berulang selama tidur. Hal ini menyebabkan otak dan tubuh kekurangan oksigen, yang dapat berdampak pada kesehatan jantung dan sistem pernapasan.',
+      'Insomnia': '<strong class="font-bold text-[#040A42]">Insomnia</strong> adalah gangguan tidur yang ditandai dengan kesulitan untuk tertidur, tetap tertidur, atau bangun terlalu cepat dan tidak bisa kembali tidur. Gangguan ini dapat menyebabkan kelelahan, gangguan konsentrasi, dan mempengaruhi produktivitas harian. Insomnia dapat bersifat jangka pendek (akut) atau jangka panjang (kronis).',
+      'Sleep Apnea': '<strong class="font-bold text-[#040A42]">Sleep Apnea</strong> adalah gangguan tidur serius yang terjadi ketika pernapasan seseorang terhenti secara berulang selama tidur. Hal ini menyebabkan otak dan tubuh kekurangan oksigen, yang dapat berdampak pada kesehatan jantung dan sistem pernapasan. Sleep apnea sering tidak disadari penderitanya karena terjadi saat tidur.',
       'Normal': '<strong class="font-bold text-[#040A42]">Tidur normal</strong> adalah kondisi di mana seseorang dapat tertidur dengan mudah, tetap tertidur sepanjang malam, dan bangun dengan perasaan segar. Pola tidur yang sehat membantu menjaga keseimbangan energi, konsentrasi, suasana hati, serta mendukung fungsi tubuh dan otak secara optimal.',
       'Data Tidak Ditemukan': 'Deskripsi tidak tersedia karena data hasil prediksi tidak dapat ditemukan. Silakan isi formulir terlebih dahulu.'
     };
@@ -91,6 +91,38 @@ class ResultsPage {
       colorClass: stressLevel < 5 ? "text-green-500" : "text-red-500",
     };
 
+    let dynamicSaran = [];
+    const isLangkahHarianRed = langkahHarianMetric.colorClass === 'text-red-500';
+    const isStressLevelRed = stressLevelMetric.colorClass === 'text-red-500';
+    const isDurasiTidurRed = durasiTidurMetric.colorClass === 'text-red-500';
+
+    if (predicted_class === 'Normal') {
+      const allMetricsGreen = !isLangkahHarianRed && !isStressLevelRed && !isDurasiTidurRed;
+
+      if (allMetricsGreen) {
+        dynamicSaran.push('Saat ini, Anda tampaknya memiliki pola hidup yang sehat dan pola tidur yang baik. Untuk menjaga kondisi ini, usahakan untuk tetap konsisten dengan jadwal tidur dan hindari kebiasaan yang bisa mengganggu kualitas tidur Anda, seperti begadang dan bermain ponsel hingga larut malam');
+      } else {
+        dynamicSaran.push('Pastikan kamar tidur tenang, sejuk, dan nyaman');
+      }
+    } else if (predicted_class === 'Insomnia') {
+      dynamicSaran.push('Hindari layar gadget dan kafein minimal 1 jam sebelum tidur');
+    } else if (predicted_class === 'Sleep Apnea') {
+      dynamicSaran.push('Tidurlah dengan posisi menyamping untuk mencegah saluran napas tertutup saat tidur');
+      dynamicSaran.push('Segera periksakan diri ke dokter jika sering mendengkur keras atau terbangun tiba-tiba saat tidur');
+    }
+
+    if (isDurasiTidurRed) {
+      dynamicSaran.push('Tetapkan jadwal tidur yang konsisten setiap hari');
+    }
+    if (isLangkahHarianRed) {
+      dynamicSaran.push('Lakukan aktivitas fisik ringan seperti berjalan kaki atau stretching');
+      dynamicSaran.push('Gunakan tangga dibandingkan lift atau eskalator');
+    }
+    if (isStressLevelRed) {
+      dynamicSaran.push('Luangkan waktu untuk relaksasi setiap hari'); 
+      dynamicSaran.push('Kurangi paparan informasi negatif berlebihan');
+    }
+
     const resultData = {
       condition: predicted_class,
       confidence: (confidence * 100).toFixed(1),
@@ -109,12 +141,7 @@ class ResultsPage {
         langkahHarian: langkahHarianMetric,
         stressLevel: stressLevelMetric,
       },
-      saran: [ 
-        "Hindari layar gadget dan kafein minimal 1 jam sebelum tidur",
-        "Ciptakan suasana kamar tidur yang tenang, gelap, dan nyaman",
-        "Luangkan waktu untuk aktivitas menyenangkan dan me-time setiap hari",
-        "Jika sulit tidur atau stres berlanjut, pertimbangkan untuk berkonsultasi dengan tenaga profesional",
-      ],
+      saran: dynamicSaran,
     };
 
     return `
@@ -126,7 +153,7 @@ class ResultsPage {
             <div class="grid gap-5 md:grid-cols-10">
               <div class="bg-white text-slate-800 rounded-2xl shadow-lg overflow-hidden flex flex-col text-center md:col-span-4">
                 <div class="p-6 flex-grow">
-                  
+                
                   ${dynamicImage 
                     ? `<img src="${dynamicImage}" alt="Ilustrasi ${resultData.condition}" class="w-[150px] h-[150px] rounded-full object-cover mx-auto" />`
                     : `<div class="w-[150px] h-[150px] bg-slate-200 rounded-full flex items-center justify-center text-slate-400 italic mx-auto">Gambar tidak tersedia</div>`
