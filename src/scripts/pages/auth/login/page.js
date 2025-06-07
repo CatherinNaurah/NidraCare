@@ -109,7 +109,6 @@ async afterRender() {
   }
   loginSuccessfully(message, user) {
     console.log(message);
-    alert(`Login berhasil! Selamat datang, ${user.username || 'Pengguna'}.`);
     location.hash = '/home'; 
   }
   loginFailed(message) {
