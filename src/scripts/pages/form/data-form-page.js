@@ -46,7 +46,7 @@ class DataFormPage {
                        class="w-full py-3 px-4 border border-slate-200 rounded-lg text-base transition-colors duration-200 
                               placeholder:text-slate-400 focus:outline-none focus:border-[#040A42] focus:ring-4 focus:ring-[#040A42]/20 no-spinner">
               </div>
-s
+
               <div class="mb-6">
                 <label for="durasi-tidur" class="block font-medium mb-2 text-sm">Durasi Jam Tidur</label>
                 <input type="number" step="any" id="durasi-tidur" name="durasiTidur" placeholder="Gunakan angka desimal jika perlu. Misal: 6, 7.5, 8" required
