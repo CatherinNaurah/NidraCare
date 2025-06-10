@@ -1,8 +1,13 @@
 import { getActiveRoute } from '../routes/url-parser';
 import { transitionHelper } from '../utils';
 import { routes } from '../routes/routes';
-import { generateAuthenticatedNavigationListTemplate, generateUnauthenticatedNavigationListTemplate, generateFooterTemplate } from '../templates';
+import {
+  generateAuthenticatedNavigationListTemplate,
+  generateUnauthenticatedNavigationListTemplate,
+  generateFooterTemplate,
+} from '../templates';
 import { getAccessToken, getLogout } from '../utils/auth';
+import { initNavigationToggle } from '../utils/nav-toggle.js';
 
 export default class App {
   #content;
@@ -25,46 +30,48 @@ export default class App {
       this.#navbar.style.display = 'none';
     } else {
       this.#navbar.style.display = '';
-      const isAuthenticated = !!getAccessToken(); 
+      const isAuthenticated = !!getAccessToken();
 
       if (isAuthenticated) {
-        this.#navbar.innerHTML = generateAuthenticatedNavigationListTemplate(); 
+        this.#navbar.innerHTML = generateAuthenticatedNavigationListTemplate();
+        initNavigationToggle();
+
         const logoutButton = document.getElementById('logout-button');
-        if (logoutButton) {
-          logoutButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            if (confirm('Apakah Anda yakin ingin keluar?')) {
-              getLogout();
-              location.hash = '/login'; 
-            }
-          });
-        }
+        const logoutButtonMobile = document.getElementById('logout-button-mobile');
+
+        const logoutHandler = (event) => {
+          event.preventDefault();
+          if (confirm('Apakah Anda yakin ingin keluar?')) {
+            getLogout();
+            location.hash = '/login';
+          }
+        };
+
+        if (logoutButton) logoutButton.addEventListener('click', logoutHandler);
+        if (logoutButtonMobile) logoutButtonMobile.addEventListener('click', logoutHandler);
       } else {
         this.#navbar.innerHTML = generateUnauthenticatedNavigationListTemplate();
+        initNavigationToggle();
       }
     }
   }
 
   async setupFooter() {
     if (!this.#footer) return;
-    
+
     const url = getActiveRoute();
     if (url === '/login' || url === '/register') {
-      if (this.#footer) this.#footer.style.display = 'none';
+      this.#footer.style.display = 'none';
     } else {
-      if (this.#footer) {
-        this.#footer.style.display = '';
-        this.#footer.innerHTML = generateFooterTemplate();
-      }
+      this.#footer.style.display = '';
+      this.#footer.innerHTML = generateFooterTemplate();
     }
   }
 
   #adjustMainContentPadding() {
     if (this.#navbar && this.#content) {
       const currentRoute = getActiveRoute();
-      
       const navbarHeightToUse = this.#navbarHeight;
-
       const isNavbarVisible = this.#navbar.style.display !== 'none';
 
       if (isNavbarVisible && !this.#routesWithoutNavbarPadding.includes(currentRoute)) {
@@ -79,7 +86,6 @@ export default class App {
     const url = getActiveRoute();
     const route = routes[url];
 
-
     if (!route) {
       this.#content.innerHTML = '<h2>Page not found</h2>';
       await this.setupNavbar();
@@ -88,10 +94,8 @@ export default class App {
       return;
     }
 
-    const page = route(); 
-    if (!page) {
-        return;
-    }
+    const page = route();
+    if (!page) return;
 
     const transition = transitionHelper({
       updateDOM: async () => {
@@ -106,10 +110,8 @@ export default class App {
     transition.ready.catch(console.error);
     transition.updateCallbackDone.then(async () => {
       scrollTo({ top: 0, behavior: 'instant' });
-
       await this.setupNavbar();
       await this.setupFooter();
-      
       this.#adjustMainContentPadding();
     });
   }
