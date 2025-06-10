@@ -1,6 +1,6 @@
 import Presenter from './presenter';
 import * as API from '../../data/api';
-import insomnia from '../../assets/images/insomnia.png';
+import insomnia from '../../assets/images/insomnia.jpg';
 import anea from '../../assets/images/sleep anea.png';
 
 export default class Page {
@@ -14,7 +14,7 @@ export default class Page {
       </div>
 
       <div class="flex flex-col sm:flex-row items-start gap-6 mt-10 max-w-4xl mx-auto">
-        <img src="${insomnia}" alt="Ilustrasi Insomnia" class="w-[160px] h-[130px] rounded-xl object-cover flex-shrink-0 shadow-md transition-transform duration-300 hover:scale-105"/>
+        <img src="${insomnia}" alt="Ilustrasi Insomnia" class="w-[260px] h-[230px] rounded-xl object-cover flex-shrink-0 shadow-md transition-transform duration-300 hover:scale-105"/>
         <p class="text-base md:text-lg text-gray-700 text-justify leading-relaxed tracking-wide">
           Insomnia adalah kondisi di mana seseorang mengalami kesulitan untuk tidur atau mempertahankan tidur yang berkualitas. Bayangkan saja, sudah berbaring di tempat tidur berjam-jam tapi mata tetap melek seperti burung hantu. Atau mungkin bisa tertidur, tapi sering terbangun di tengah malam dan susah tidur lagi. Penderita insomnia biasanya merasa lelah sepanjang hari, sulit berkonsentrasi, dan mood-nya jadi gampang berubah. Penyebabnya bisa macam-macam, mulai dari stres, kecemasan, kebiasaan buruk sebelum tidur, hingga konsumsi kafein berlebihan. Insomnia bisa terjadi sesekali (akut) atau berlangsung lama (kronis) jika tidak ditangani dengan baik.
         </p>
@@ -74,7 +74,7 @@ export default class Page {
       </div>
 
       <div class="flex flex-col sm:flex-row items-start gap-6 mt-10 max-w-4xl mx-auto">
-        <img src="${anea}" alt="Ilustrasi Sleep Apneas" class="w-[160px] h-[130px] rounded-xl object-cover flex-shrink-0 shadow-md transition-transform duration-300 hover:scale-105"/>
+        <img src="${anea}" alt="Ilustrasi Sleep Apneas" class="w-[260px] h-[230px] rounded-xl object-cover flex-shrink-0 shadow-md transition-transform duration-300 hover:scale-105"/>
         <p class="text-base md:text-lg text-gray-700 text-justify leading-relaxed tracking-wide">
           Sleep apnea adalah gangguan tidur yang cukup serius, di mana pernapasan seseorang terhenti berulang kali saat tidur. Kondisi ini seperti "mogok napas" sementara yang bisa terjadi puluhan bahkan ratusan kali dalam semalam. Yang paling umum adalah Obstructive Sleep Apnea (OSA), di mana saluran napas tersumbat karena otot-otot tenggorokan mengendur berlebihan.
           Gejala yang paling khas adalah dengkuran keras yang diselingi periode hening (napas berhenti), lalu diikuti suara seperti tersedak atau terengah-engah. Penderitnya sering tidak sadar mengalami hal ini, tapi akan bangun dengan perasaan tidak segar meski sudah tidur lama. Sleep apnea dapat meningkatkan risiko penyakit jantung, stroke, dan diabetes jika tidak ditangani.
@@ -127,6 +127,13 @@ export default class Page {
             <li>Tidur posisi terlentang meningkatkan risiko terjadinya apnea.</li>
           </ul>
         </div>
+      </div>
+        <div class="flex justify-center mt-10">
+         <a href="#/home">
+         <button class="bg-[#5366c7] hover:bg-[#4254a0] text-white font-semibold py-2 px-6 rounded-xl shadow-md transition-colors duration-300">
+         Kembali ke Beranda
+        </button>
+        </a>
       </div>
     </div>
 
