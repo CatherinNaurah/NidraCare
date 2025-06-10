@@ -43,27 +43,30 @@ Aplikasi NidraCare merupakan web berbasis Machine Learning yang dirancang untuk 
 ## Struktur Proyek
 
 ```plaintext
-citycareapp
-├── package.json            # Informasi dependensi proyek
-├── package-lock.json       # File lock untuk dependensi
-├── README.md               # Dokumentasi proyek
-├── webpack.common.js       # Konfigurasi Webpack (umum)
-├── webpack.dev.js          # Konfigurasi Webpack (development)
-├── webpack.prod.js         # Konfigurasi Webpack (production)
-└── src                     # Direktori utama untuk kode sumber
-    ├── index.html          # Berkas HTML utama
-    ├── public              # Direktori aset publik
-    │   ├── favicon.png     # Ikon situs
-    │   └── images          # Gambar yang digunakan dalam proyek
-    ├── scripts             # Direktori untuk kode JavaScript
-    │   ├── data            # Folder untuk API atau sumber data
-    │   ├── pages           # Halaman-halaman utama
-    │   ├── routes          # Pengaturan routing
-    │   ├── utils           # Helper dan utilitas
-    │   ├── templates.js    # Template HTML dinamis
-    │   ├── config.js       # Konfigurasi proyek
-    │   └── index.js        # Entry point aplikasi
-    └── styles              # File CSS
-        ├── responsives.css # Gaya untuk responsivitas
-        └── styles.css      # Gaya umum
+nidracare
+├── .gitignore                # Mengabaikan file dan direktori dari Git
+├── package.json              # Informasi dependensi proyek
+├── package-lock.json         # File lock untuk dependensi
+├── postcss.config.js         # Konfigurasi untuk PostCSS
+├── tailwind.config.js        # Konfigurasi untuk Tailwind CSS
+├── README.md                 # Dokumentasi proyek
+├── webpack.common.js         # Konfigurasi Webpack (umum)
+├── webpack.dev.js            # Konfigurasi Webpack (development)
+├── webpack.prod.js           # Konfigurasi Webpack (production)
+└── src                       # Direktori utama untuk kode sumber
+    ├── index.html            # Berkas HTML utama
+    ├── public                # Direktori aset publik
+    │   ├── app.webmanifest   # Manifest untuk Progressive Web App (PWA)
+    │   └── nidracare app.png # Ikon atau gambar utama aplikasi
+    ├── scripts               # Direktori untuk kode JavaScript
+    │   ├── assets            # Folder untuk aset yang digunakan oleh JavaScript
+    │   ├── data              # Folder untuk API atau sumber data
+    │   ├── pages             # Halaman-halaman utama aplikasi
+    │   ├── routes            # Pengaturan routing aplikasi
+    │   ├── utils             # Helper dan fungsi utilitas
+    │   ├── config.js         # Konfigurasi skrip proyek
+    │   ├── index.js          # Entry point aplikasi JavaScript
+    │   └── templates.js      # Template untuk komponen atau halaman
+    └── styles                # Direktori untuk file CSS
+        └── styles.css        # Gaya umum aplikasi
 ```
