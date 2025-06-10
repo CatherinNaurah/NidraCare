@@ -216,6 +216,13 @@ class ResultsPage {
 
           </div>
         </div>
+        <div class="flex justify-center mt-10">
+         <a href="#/home">
+         <button class="bg-[#5366c7] hover:bg-[#4254a0] text-white font-semibold py-2 px-6 rounded-xl shadow-md transition-colors duration-300">
+         Kembali ke Beranda
+        </button>
+        </a>
+      </div>
       </div>
     `;
   }
