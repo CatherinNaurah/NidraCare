@@ -74,7 +74,13 @@ class DataFormPage {
               </div>
 
               <div class="mb-6">
-                <label for="kategori-bmi" class="block font-medium mb-2 text-sm">Kategori BMI</label>
+                <div class="flex items-center gap-2 mb-2">
+                  <label for="kategori-bmi" class="block font-medium text-sm">Kategori BMI</label>
+                  <a href="https://www.calculator.net/bmi-calculator.html" target="_blank" rel="noopener noreferrer" 
+                     class="bg-white border border-slate-200 text-[#059ce2] rounded-full px-3 py-1 text-xs font-medium no-underline hover:border-slate-400 transition-colors duration-200 ease-in-out">
+                    Test here
+                  </a>
+                </div>
                 <select id="kategori-bmi" name="kategoriBmi" required class="${selectClasses}">
                   <option value="" disabled selected>Pilih Kategori BMI</option>
                   <option value="Normal">Underweight</option>
@@ -114,7 +120,6 @@ class DataFormPage {
         const formData = new FormData(this.#form);
         const data = Object.fromEntries(formData.entries());
         
-        // Konversi ke tipe data yang benar
         const numericFields = ['umur', 'aktivitasFisik', 'dailyStep', 'durasiTidur', 'stressLevel', 'kualitasTidur'];
         for (const field of numericFields) {
           if (data[field]) {
