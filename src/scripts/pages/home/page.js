@@ -1,7 +1,5 @@
 import Presenter from './presenter';
 import * as API from '../../data/api';
-import Home1Img from '../../assets/images/home1.png'
-import Home2Img from '../../assets/images/home2.png'
 
 
 export default class Page {
