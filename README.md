@@ -1,11 +1,13 @@
-# CityCare App Starter Project
+# NidraCare
 
 ## Pengantar
 
-Starter project ini dirancang sebagai bahan pelajaran siswa di kelas [Belajar Pengembangan Web Intermediate](https://www.dicoding.com/academies/219).
+Project Akhir bagian Front - End Dicoding Camp
 
 ## Deskripsi
-CityCareApp adalah aplikasi pelaporan kerusakan fasilitas umum yang memungkinkan warga Indonesia melaporkan masalah secara langsung kepada pemerintah kota. Dengan aplikasi ini, komunikasi antara warga dan pemerintah menjadi lebih efisien dalam menangani dan menindaklanjuti laporan kerusakan fasilitas umum.
+Aplikasi NidraCare merupakan web berbasis Machine Learning yang dirancang untuk memprediksi potensi gangguan tidur seperti insomnia atau sleep apnea berdasarkan data pengguna, seperti durasi tidur, gejala fisik dan mental, serta gaya hidup. Dengan pendekatan design thinking, aplikasi ini membantu pengguna mengenali kondisi tidurnya sebelum berkonsultasi dengan tenaga medis. Model klasifikasi digunakan untuk mengelompokkan kondisi tidur pengguna ke dalam kategori normal, insomnia, atau sleep apnea, serta memberikan saran perbaikan yang sesuai.
+
+
 
 ## Prasyarat
 
@@ -14,15 +16,15 @@ CityCareApp adalah aplikasi pelaporan kerusakan fasilitas umum yang memungkinkan
 
 ## Instalasi
 
-- Unduh starter project [citycareapp-starter-project.zip](https://raw.githubusercontent.com/dicodingacademy/a219-web-intermediate-labs/099-shared-files/citycareapp-starter-project.zip).
+- Unduh  project [NidraCare.zip]
 - Unzip berkas ZIP yang telah diunduh. Bisa pakai perintah berikut untuk Linux:
   ```bash
-  unzip ./citycareapp-starter-project.zip
+  unzip ./NidraCare.zip
   ```
 
 - Masuk ke direktori proyek:
   ```bash
-  cd citycareapp-starter-project
+  cd NidraCare
   ```
 
 - Pasang seluruh dependensi:
