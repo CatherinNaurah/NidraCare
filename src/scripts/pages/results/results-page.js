@@ -96,31 +96,35 @@ class ResultsPage {
     const isStressLevelRed = stressLevelMetric.colorClass === 'text-red-500';
     const isDurasiTidurRed = durasiTidurMetric.colorClass === 'text-red-500';
 
-    if (predicted_class === 'Normal') {
-      const allMetricsGreen = !isLangkahHarianRed && !isStressLevelRed && !isDurasiTidurRed;
+    if (predicted_class === 'Data Tidak Ditemukan') {
+      dynamicSaran.push('Silakan isi formulir terlebih dahulu.');
+    } else {
+      if (predicted_class === 'Normal') {
+        const allMetricsGreen = !isLangkahHarianRed && !isStressLevelRed && !isDurasiTidurRed;
 
-      if (allMetricsGreen) {
-        dynamicSaran.push('Saat ini, Anda tampaknya memiliki pola hidup yang sehat dan pola tidur yang baik. Untuk menjaga kondisi ini, usahakan untuk tetap konsisten dengan jadwal tidur dan hindari kebiasaan yang bisa mengganggu kualitas tidur Anda, seperti begadang dan bermain ponsel hingga larut malam');
-      } else {
-        dynamicSaran.push('Pastikan kamar tidur tenang, sejuk, dan nyaman');
+        if (allMetricsGreen) {
+          dynamicSaran.push('Saat ini, Anda tampaknya memiliki pola hidup yang sehat dan pola tidur yang baik. Untuk menjaga kondisi ini, usahakan untuk tetap konsisten dengan jadwal tidur dan hindari kebiasaan yang bisa mengganggu kualitas tidur Anda, seperti begadang dan bermain ponsel hingga larut malam');
+        } else {
+          dynamicSaran.push('Pastikan kamar tidur tenang, sejuk, dan nyaman');
+        }
+      } else if (predicted_class === 'Insomnia') {
+        dynamicSaran.push('Hindari layar gadget dan kafein minimal 1 jam sebelum tidur');
+      } else if (predicted_class === 'Sleep Apnea') {
+        dynamicSaran.push('Tidurlah dengan posisi menyamping untuk mencegah saluran napas tertutup saat tidur');
+        dynamicSaran.push('Segera periksakan diri ke dokter jika sering mendengkur keras atau terbangun tiba-tiba saat tidur');
       }
-    } else if (predicted_class === 'Insomnia') {
-      dynamicSaran.push('Hindari layar gadget dan kafein minimal 1 jam sebelum tidur');
-    } else if (predicted_class === 'Sleep Apnea') {
-      dynamicSaran.push('Tidurlah dengan posisi menyamping untuk mencegah saluran napas tertutup saat tidur');
-      dynamicSaran.push('Segera periksakan diri ke dokter jika sering mendengkur keras atau terbangun tiba-tiba saat tidur');
-    }
 
-    if (isDurasiTidurRed) {
-      dynamicSaran.push('Tetapkan jadwal tidur yang konsisten setiap hari');
-    }
-    if (isLangkahHarianRed) {
-      dynamicSaran.push('Lakukan aktivitas fisik ringan seperti berjalan kaki atau stretching');
-      dynamicSaran.push('Gunakan tangga dibandingkan lift atau eskalator');
-    }
-    if (isStressLevelRed) {
-      dynamicSaran.push('Luangkan waktu untuk relaksasi setiap hari'); 
-      dynamicSaran.push('Kurangi paparan informasi negatif berlebihan');
+      if (isDurasiTidurRed) {
+        dynamicSaran.push('Tetapkan jadwal tidur yang konsisten setiap hari');
+      }
+      if (isLangkahHarianRed) {
+        dynamicSaran.push('Lakukan aktivitas fisik ringan seperti berjalan kaki atau stretching');
+        dynamicSaran.push('Gunakan tangga dibandingkan lift atau eskalator');
+      }
+      if (isStressLevelRed) {
+        dynamicSaran.push('Luangkan waktu untuk relaksasi setiap hari'); 
+        dynamicSaran.push('Kurangi paparan informasi negatif berlebihan');
+      }
     }
 
     const resultData = {
